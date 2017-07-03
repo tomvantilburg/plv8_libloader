@@ -30,7 +30,7 @@ insert into plv8_modules values ('topojson',true,:'topojson') ON CONFLICT (modna
 --insert into plv8_modules values ('geotiff',true,:'geotiff') ON CONFLICT (modname) DO UPDATE SET code = :'geotiff' WHERE plv8_modules.modname = 'geotiff';
 insert into plv8_modules values ('delaunator',true,:'delaunator') ON CONFLICT (modname) DO UPDATE SET code = :'delaunator' WHERE plv8_modules.modname = 'delaunator';
 
-
+create schema if not exists plv8;
 
 /******************************************************************************
 Create a a startup function to create a plv8 function
@@ -38,7 +38,7 @@ that will be used to load the modules, Executing it
 will register the plv8 function
 ******************************************************************************/
 
-create or replace function plv8_startup()
+create or replace function plv8.plv8_startup()
 returns void
 language plv8
 as
@@ -52,7 +52,7 @@ load_module = function(modname) {
 };
 $$;
 
-select plv8_startup(); 
+select plv8.plv8_startup(); 
 
 
 /******************************************************************************
