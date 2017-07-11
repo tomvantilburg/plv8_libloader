@@ -1,3 +1,4 @@
+
 /******************************************************************************
 Load all the js libraries into variables that we can later
  insert into our plv8_modules table 
@@ -14,6 +15,8 @@ Load all the js libraries into variables that we can later
 --\set geotiff `cat ./libraries/geotiff.js`
 --\set geotiff `cat ./node_modules/geotiff/dist/geotiff.browserify.js`
 
+\set histogramanalyze `cat ./node_modules/histogram-analyze/dist/histogram-analyze.js`
+
 /******************************************************************************
 Now that we have set variables containing the code
 we need to create a table to store each of them in
@@ -29,6 +32,7 @@ insert into plv8_modules values ('d3_hexbin',true,:'d3_hexbin') ON CONFLICT (mod
 insert into plv8_modules values ('topojson',true,:'topojson') ON CONFLICT (modname) DO UPDATE SET code = :'topojson' WHERE plv8_modules.modname = 'topojson';
 --insert into plv8_modules values ('geotiff',true,:'geotiff') ON CONFLICT (modname) DO UPDATE SET code = :'geotiff' WHERE plv8_modules.modname = 'geotiff';
 insert into plv8_modules values ('delaunator',true,:'delaunator') ON CONFLICT (modname) DO UPDATE SET code = :'delaunator' WHERE plv8_modules.modname = 'delaunator';
+--insert into plv8_modules values ('histogramanalyze',true,:'histogramanalyzee') ON CONFLICT (modname) DO UPDATE SET code = :'histogramanalyze' WHERE plv8_modules.modname = 'histogramanalyze';
 
 create schema if not exists plv8;
 
@@ -119,5 +123,7 @@ do language plv8 $$
 	*/
 $$;
 
-
+do language plv8 $$
+	plv8.elog(NOTICE, 'analyze-histogram is a typeof: ', typeof HistogramAnalze);
+$$;
 
